@@ -37,6 +37,7 @@ var TV = (function () {
   // from the TV's remote control API on 127.0.0.1:3000 (the one LG's phone app uses), which takes file:// pages.
   // The TV asks once to allow it; the key it gives back is kept.
   var SSAP_KEY = 'fmtv.ssapKey', SSAP_REFUSED = 'fmtv.ssapRefused';
+  var DIGI_TV_APP = 'com.digionline.tizen';
 
   /** One call to the remote control API; done(result) with null on failure. */
   function ssap(uri, done) {
@@ -144,7 +145,7 @@ var TV = (function () {
     ['netflix', 'Netflix'], ['youtube.leanback.v4', 'YouTube'], ['amazon', 'Prime Video'],
     ['com.disney.disneyplus-prod', 'Disney+'], ['com.wbd.stream', 'HBO Max'], ['com.hbo.hbomax', 'Max'],
     ['com.apple.appletv', 'Apple TV'], ['hulu', 'Hulu'], ['com.peacock.tv', 'Peacock'], ['com.nfl.app', 'NFL'],
-    ['globoplaywebos', 'Globoplay'], ['com.digionline.tizen', 'DIGI TV'],
+    ['globoplaywebos', 'Globoplay'], [DIGI_TV_APP, 'DIGI TV'],
     ['spotify-beehive', 'Spotify'], ['tv.twitch.tv.starshot.lg', 'Twitch'],
     ['cdp-30', 'Plex'], ['org.jellyfin.webos', 'Jellyfin'], ['com.crunchyroll.webapp', 'Crunchyroll'],
     ['com.webos.app.browser', 'Web Browser']
@@ -322,6 +323,15 @@ var TV = (function () {
       }
       if (!webos) {
         if (done) setTimeout(function () { done(true); }, 0);
+        return;
+      }
+      if (id === 'com.webos.app.livetv') {
+        luna('luna://com.webos.applicationManager/getAppLoadStatus', {appId: DIGI_TV_APP}, function (status) {
+          var target = status && status.exist ? DIGI_TV_APP : id;
+          luna('luna://com.webos.applicationManager/launch', {id: target}, function (res) {
+            if (done) done(!!res);
+          });
+        });
         return;
       }
       luna('luna://com.webos.applicationManager/launch', params ? {id: id, params: params} : {id: id}, function (res) {
