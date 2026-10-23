@@ -144,7 +144,8 @@ var TV = (function () {
     ['netflix', 'Netflix'], ['youtube.leanback.v4', 'YouTube'], ['amazon', 'Prime Video'],
     ['com.disney.disneyplus-prod', 'Disney+'], ['com.wbd.stream', 'HBO Max'], ['com.hbo.hbomax', 'Max'],
     ['com.apple.appletv', 'Apple TV'], ['hulu', 'Hulu'], ['com.peacock.tv', 'Peacock'], ['com.nfl.app', 'NFL'],
-    ['globoplaywebos', 'Globoplay'], ['spotify-beehive', 'Spotify'], ['tv.twitch.tv.starshot.lg', 'Twitch'],
+    ['globoplaywebos', 'Globoplay'], ['com.digionline.tizen', 'DIGI TV'],
+    ['spotify-beehive', 'Spotify'], ['tv.twitch.tv.starshot.lg', 'Twitch'],
     ['cdp-30', 'Plex'], ['org.jellyfin.webos', 'Jellyfin'], ['com.crunchyroll.webapp', 'Crunchyroll'],
     ['com.webos.app.browser', 'Web Browser']
   ];
