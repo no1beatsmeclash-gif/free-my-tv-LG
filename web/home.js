@@ -1,3 +1,4 @@
+/Users/pedrosimas/.bash_profile: line 4: /Applications/MacKichan/MSITeX.bash#: No such file or directory
 /*
  * The home screen for web-app TVs (LG webOS, Samsung Tizen), with the Android app's design and behavior (HomeView):
  *  - top: the "For You" title and the tabs (Explore, Movies, Shows); icon-only glass buttons at the right (Live TV,
@@ -73,10 +74,18 @@
     ['peacock', /peacock/, /peacock/i, ['#1C1C1E', '#000000']],
     ['nfl', /nfl/, /^nfl/i, ['#013369', '#00163D']],
     ['globoplay', /globoplay/, /globoplay/i, ['#FF8A1F', '#FF2D5A']],
+    ['digitv', /digi.*tv/i, /digi\s*tv/i, ['#25252A', '#101014']],
     ['jellyfin', /jellyfin/i, /jellyfin/i, ['#AA5CC3', '#00A4DC']],
     ['spotify', /spotify/, /spotify/i, ['#1DB954', '#0F7A36']]
   ];
   var MAX_SHELF = 8;
+
+  // Bundled logos keep the shelf recognizable when webOS can't expose app icons to Developer Mode apps.
+  var SHELF_ICONS = {
+    netflix: 'icons/netflix.svg', youtube: 'icons/youtube.png', prime: 'icons/prime.png',
+    disney: 'icons/disneyplus.svg', max: 'icons/max.svg', digitv: 'icons/digitv.svg', jellyfin: 'icons/jellyfin.svg',
+    spotify: 'icons/spotify.svg'
+  };
 
   function shelfKey(app) {
     for (var i = 0; i < SHELF.length; i++) if (SHELF[i][1].test(app.id) || SHELF[i][2].test(app.title)) return SHELF[i];
@@ -104,11 +113,12 @@
     box.style.background = 'linear-gradient(' + top + ', ' + bottom + ')';
     var word = el('div', 'word', box, app.title);
     if (wordSize) word.style.fontSize = wordSize + 'px';
-    if (app.icon) {
+    var icon = (k && SHELF_ICONS[k[0]]) || app.icon;
+    if (icon) {
       var img = el('img', '', box);
       word.style.visibility = 'hidden';
       img.onerror = function () { img.parentNode.removeChild(img); word.style.visibility = ''; };
-      img.src = app.icon;
+      img.src = icon;
     }
   }
 
